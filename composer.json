@@ -1,0 +1,15 @@
+{
+    "name": "takif/client",
+    "autoload": {
+        "psr-4": {
+            "Takif\\Client\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Tanya-00",
+            "email": "taki.fox8@gmail.com"
+        }
+    ],
+    "require": {}
+}
