@@ -95,4 +95,77 @@ class Client {
         }
         return $inf;
     }
+
+    /*------------------File storage client---------------------------*/
+
+    public function upload(string $fileName, string $file) {
+        if(!file_exists(realpath($file))) {
+            return $this->json ([
+                'status'=>400,
+                'message'=>"File cannot be empty"
+            ]);
+        }
+        $req = curl_init();
+        curl_setopt_array($req, array(
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_URL => $this->url.'/upload'.$fileName,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS => array('file'=>new CURLFile($file))
+        ));
+        try {
+            $data = curl_exec($req);
+            $inf = curl_getinfo($req, CURLINFO_RESPONSE_CODE);
+        } finally {
+            curl_close($req);
+        }
+        return $inf;
+    }
+
+    public function getFiles() {
+        $req = curl_init();
+        curl_setopt_array($req, array(
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_URL => $this->url.'/getFiles',
+            CURLOPT_CUSTOMREQUEST => 'GET',
+        ));
+        try {
+            $data = curl_exec($req);
+            $inf = curl_getinfo($req, CURLINFO_RESPONSE_CODE);
+        } finally {
+            curl_close($req);
+        }
+        return $inf;
+    }
+
+    public function getFile(int $id) {
+        $req = curl_init();
+        curl_setopt_array($req, array(
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_URL => $this->url.'/getFile'.$id,
+            CURLOPT_CUSTOMREQUEST => 'GET',
+        ));
+        try {
+            $data = curl_exec($req);
+            $inf = curl_getinfo($req, CURLINFO_RESPONSE_CODE);
+        } finally {
+            curl_close($req);
+        }
+        return $inf;
+    }
+
+    public function delete(int $id) {
+        $req = curl_init();
+        curl_setopt_array($req, array(
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_URL => $this->url.'/delete'.$id,
+            CURLOPT_CUSTOMREQUEST => 'DELETE',
+        ));
+        try {
+            $data = curl_exec($req);
+            $inf = curl_getinfo($req, CURLINFO_RESPONSE_CODE);
+        } finally {
+            curl_close($req);
+        }
+        return $inf;
+    }
 }
